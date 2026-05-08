@@ -15,6 +15,13 @@ class PrestamoController:
         )
         return {"success": True, "data": resultado}
 
+    async def solicitar(self, datos):
+        """Caso Crítico 3 y 4: Calcula y guarda la solicitud en Supabase"""
+        # Llamamos al Service para que valide duplicados y guarde
+        # Usamos model_dump() para convertir el esquema Pydantic a un diccionario
+        solicitud = await self.service.guardar_solicitud(datos.model_dump())
+        return {"success": True, "data": solicitud}
+
     async def promedio_cuota(self, user_id: str):
         """Endpoint para Riesgos: Promedio recalculado (Caso Crítico 6)"""
         data = self.service.calcular_promedio_cuota(user_id)
